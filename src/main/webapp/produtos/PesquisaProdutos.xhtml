@@ -1,0 +1,69 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Produtos</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h1>Pesquisa Produtos</h1>
+
+			<p:toolbar style="margin-top: 20px;">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar" id="pesquisar" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/produtos/CadastroProdutos" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style="width: 100%;margin-top:20px;" columnClasses="rotulo, campo">
+				<p:outputLabel value="SKU" for="sku" />
+				<p:inputText id="sku" size="20" maxlength="20" />
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80" />
+			</p:panelGrid>
+
+			<p:dataTable id="produtosTable" value="#{pesquisaProdutosBean.produtosFiltrados}" var="produto"
+				style="margin-top: 20px;" emptyMessage="Nenhum Produto Encontrado." rows="20" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="SKU" style="text-align: center; width: 100px;">
+					<h:outputText value="123" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="Bala de morango" />
+				</p:column>
+
+				<p:column headerText="Categoria" style="width: 250px;">
+					<h:outputText value="Doces - Balas e chiletes" />
+				</p:column>
+
+				<p:column headerText="Valor unitário" style="text-align: right;width: 120px;">
+					<h:outputText value="R$ 1,20" />
+				</p:column>
+
+				<p:column headerText="Estoque" style="text-align: center;width: 100px;">
+					<h:outputText value="98" />
+				</p:column>
+
+				<p:column style="text-align: center;width: 100px;">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton icon="ui-icon-trash" title="Excluir">
+						<p:confirm header="Exclusão de produto" message="Tem certeza que deseja excluir o produto?" icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" header="Exclusão de produto" message="Tem certeza que deseja excluir o produto?"
+				widgetVar="confirmacaoExclusao" style="align: center;">
+				<p:button value="Não" icon="ui-icon-close" />
+				<p:commandButton value="Sim" oncomplete="PF('confirmacaoExclusao').hide();" icon="ui-icon-check" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+	
+	
+
+</ui:composition>

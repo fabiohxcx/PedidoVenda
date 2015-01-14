@@ -1,0 +1,58 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Clientes</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h1>Pesquisa Clientes</h1>
+
+			<p:toolbar style="margin-top: 20px;">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar" id="pesquisar" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/clientes/CadastroCliente" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style="width: 100%;margin-top:20px;" columnClasses="rotulo, campo">
+				<p:outputLabel value="CPF/CNPJ" for="cpfCnpj" />
+				<p:inputMask id="cpfCnpj" mask="99.999.999/9999-99" required="true" />
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="100" />
+			</p:panelGrid>
+
+			<p:dataTable id="clientesTable" value="#{pesquisaClientesBean.clientesFiltrados}" var="cliente"
+				style="margin-top: 20px;" emptyMessage="Nenhum cliente encontrado" rows="20" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="Nome">
+					<h:outputText value="SuperMercado Tal" />
+				</p:column>
+				<p:column headerText="Tipo" style="text-align: center; width: 100px;">
+					<h:outputText value="Jurídico" />
+				</p:column>
+				<p:column headerText="CPF/CNPJ" style="text-align: center; width: 150px;">
+					<h:outputText value="02.493.738/0001-83" />
+				</p:column>
+				<p:column style="text-align: center;width: 70px;">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton title="Excluir" icon="ui-icon-trash" oncomplete="PF('confirmaExclusao').show();" process="@this">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+
+			<!-- Dialog para exclusao -->
+			<p:confirmDialog header="Exclusão de cliente" message="Tem certeza que deseja excluir o cliente?"
+				widgetVar="confirmaExclusao">
+				<p:commandButton value="Sim" update="clientesTable" oncomplete="PF('confirmaExclusao').hide();"
+					action="#{clienteBean.excluir}" process="@this" />
+				<p:button value="Não" onclick="PF('confirmaExclusao').hide(); return false;" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
