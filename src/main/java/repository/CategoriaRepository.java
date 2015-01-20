@@ -19,9 +19,12 @@ public class CategoriaRepository implements Serializable {
 		return this.manager.find(Categoria.class, id);
 	}
 
+	public List<Categoria> subcategoriasDe(Categoria categoriaPai) {
+		return this.manager.createQuery("from Categoria where categoriaPai = :raiz", Categoria.class)
+				.setParameter("raiz", categoriaPai).getResultList();
+	}
+
 	public List<Categoria> raizes() {
-
-		return this.manager.createQuery("from Categoria", Categoria.class).getResultList();
-
+		return this.manager.createQuery("from Categoria where categoriaPai is null", Categoria.class).getResultList();
 	}
 }

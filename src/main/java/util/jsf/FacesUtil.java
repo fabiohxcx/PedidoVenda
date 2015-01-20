@@ -9,4 +9,17 @@ public class FacesUtil {
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
 	}
 
+	public static void addInfoMessage(String message) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
+	}
+
+	public static boolean isPostback() {
+		return FacesContext.getCurrentInstance().isPostback();
+	}
+
+	public static boolean isNotPostback() {
+		return !isPostback();
+	}
+
 }

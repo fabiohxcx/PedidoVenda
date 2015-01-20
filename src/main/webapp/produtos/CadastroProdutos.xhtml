@@ -1,17 +1,17 @@
 <ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Novo Produto</ui:define>
+	<ui:define name="titulo">#{cadastroProdutoBean.editando ? 'Edição de ' : 'Novo '} Produto</ui:define>
 
 	<ui:define name="corpo">
 		<f:metadata>
-			<f:viewParam name="dummy" />
-			<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView"></f:event>
+			<o:viewParam name="produto" value="#{cadastroProdutoBean.produto}" />
+			<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" />
 		</f:metadata>
 
 		<h:form id="formCadastroProduto">
-			<h1>Novo Produto</h1>
+			<h1>#{cadastroProdutoBean.editando ? 'Edição de ' : 'Novo '} Produto</h1>
 
 			<p:messages autoUpdate="true" closable="true" />
 
@@ -19,7 +19,7 @@
 				<p:toolbarGroup>
 					<p:button value="Novo" outcome="/produtos/CadastroProdutos" style="margin-bottom: 2px;margin-right: 20px;" />
 					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroProdutoBean.salvar}"
-						process="formCadastroProduto" />
+						process="formCadastroProduto" update="formCadastroProduto" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Pesquisa" outcome="/produtos/PesquisaProdutos" />
@@ -38,11 +38,14 @@
 					<f:selectItem itemLabel="Selecione a Categoria" noSelectionOption="true" />
 					<f:selectItems value="#{cadastroProdutoBean.categoriasRaizes}" var="categoria" itemValue="#{categoria}"
 						itemLabel="#{categoria.descricao}" />
+					<p:ajax listener="#{cadastroProdutoBean.carregarSubcategorias}" update="subCategoria" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Subcategoria" for="subCategoria" />
 				<p:selectOneMenu id="subCategoria" value="#{cadastroProdutoBean.produto.categoria}">
 					<f:selectItem itemLabel="Selecione a subcategoria" />
+					<f:selectItems value="#{cadastroProdutoBean.subCategorias}" var="subcategoria" itemValue="#{subcategoria}"
+						itemLabel="#{subcategoria.descricao}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Valor unitário" for="valorunitario" />

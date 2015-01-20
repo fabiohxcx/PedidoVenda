@@ -1,26 +1,65 @@
 package controller;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-@Named
-@RequestScoped
-public class PesquisaProdutosBean {
+import model.Produto;
+import repository.ProdutoRepository;
+import repository.filter.ProdutoFilter;
+import util.jsf.FacesUtil;
 
-	private List<Integer> produtosFiltrados;
+@Named
+@ViewScoped
+public class PesquisaProdutosBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private List<Produto> produtosFiltrados;
+
+	private Produto produtoSelecionado;
+
+	@Inject
+	private ProdutoRepository produtos;
+
+	private ProdutoFilter filter;
 
 	public PesquisaProdutosBean() {
-		produtosFiltrados = new ArrayList<>();
-		for (int i = 0; i < 50; i++) {
-			produtosFiltrados.add(i);
-		}
+		this.filter = new ProdutoFilter();
 	}
 
-	public List<Integer> getProdutosFiltrados() {
-		return produtosFiltrados;
+	public void excluir() {
+		this.produtos.remover(this.produtoSelecionado);
+		this.produtosFiltrados.remove(this.produtoSelecionado);
+
+		FacesUtil.addInfoMessage("Produto " + this.produtoSelecionado.getSku() + " excluído com sucesso.");
+	}
+
+	public void pesquisar() {
+		this.produtosFiltrados = this.produtos.filtrados(this.filter);
+	}
+
+	public List<Produto> getProdutosFiltrados() {
+		return this.produtosFiltrados;
+	}
+
+	public ProdutoFilter getFilter() {
+		return this.filter;
+	}
+
+	public void setFilter(ProdutoFilter filter) {
+		this.filter = filter;
+	}
+
+	public Produto getProdutoSelecionado() {
+		return this.produtoSelecionado;
+	}
+
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
 	}
 
 }
