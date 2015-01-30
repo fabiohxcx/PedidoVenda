@@ -5,12 +5,12 @@
 	<ui:define name="titulo">#{cadastroProdutoBean.editando ? 'Edição de ' : 'Novo '} Produto</ui:define>
 
 	<ui:define name="corpo">
-		<f:metadata>
-			<o:viewParam name="produto" value="#{cadastroProdutoBean.produto}" />
-			<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" />
-		</f:metadata>
-
 		<h:form id="formCadastroProduto">
+			<f:metadata>
+				<o:viewParam name="produto" value="#{cadastroProdutoBean.produto}" />
+				<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" />
+			</f:metadata>
+
 			<h1>#{cadastroProdutoBean.editando ? 'Edição de ' : 'Novo '} Produto</h1>
 
 			<p:messages autoUpdate="true" closable="true" />
