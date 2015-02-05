@@ -1,8 +1,8 @@
 <ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Novo Cliente</ui:define>
+	<ui:define name="titulo">#{cadastroClienteBean.editando ? 'Edição de ' : 'Novo '} Cliente</ui:define>
 
 	<ui:define name="corpo">
 		<script>
@@ -13,13 +13,20 @@
 			}
 		</script>
 
-		<h1>Novo Cliente</h1>
+		<h1>#{cadastroClienteBean.editando ? 'Edição de ' : 'Novo '} Cliente</h1>
 		<h:form id="dadosCliente">
+
+			<f:metadata>
+				<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
+				<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" />
+			</f:metadata>
+
 			<p:messages autoUpdate="true" />
 			<p:toolbar style="margin-top: 20px;">
 				<p:toolbarGroup>
 					<p:button value="Novo" outcome="/clientes/CadastroCliente" style="margin-bottom: 2px;margin-right: 20px;" />
-					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroClienteBean.salvar}" process="dadosCliente" />
+					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroClienteBean.salvar}" process="@form"
+						update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Pesquisa" outcome="/clientes/PesquisaClientes" />
@@ -33,20 +40,18 @@
 
 				<p:outputLabel value="Tipo" for="tipo" />
 				<p:selectOneRadio id="tipo" styleClass="space-td" value="#{cadastroClienteBean.cliente.tipo}">
-					<f:selectItem itemLabel="Física" />
-					<f:selectItem itemLabel="Jurídica" />
+					<f:selectItems value="#{cadastroClienteBean.tiposPessoas}" var="tipoPessoa" itemValue="#{tipoPessoa}"
+						itemLabel="#{tipoPessoa.descricao}" />
 				</p:selectOneRadio>
 
 				<p:outputLabel value="CNPJ" for="cnpj" />
 				<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{cadastroClienteBean.cliente.documentoReceitaFederal}" />
 
-				<p:outputLabel value="CPF" for="cpf" />
-				<p:inputMask id="cpf" mask="999.999.999-99" value="#{cadastroClienteBean.cliente.documentoReceitaFederal}" />
-
-
 				<p:outputLabel value="E-mail" for="email" />
 				<p:inputText id="email" size="60" maxlength="80" value="#{cadastroClienteBean.cliente.email}" />
 			</p:panelGrid>
+			<!-- <p:outputLabel value="CPF" for="cpf" />
+				<p:inputMask id="cpf" mask="999.999.999-99" />-->
 		</h:form>
 		<h:form id="formEnderecoButton">
 			<p:commandButton type="button" value="Adicionar Endereço" style="margin-top: 20px;"

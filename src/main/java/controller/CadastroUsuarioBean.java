@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import model.Grupo;
 import model.Usuario;
-import repository.filter.GrupoRepository;
+import repository.GrupoRepository;
 import service.CadastroUsuarioService;
 import service.NegocioException;
 import util.jsf.FacesUtil;
@@ -80,6 +80,14 @@ public class CadastroUsuarioBean implements Serializable {
 
 	public void setGrupoAdicionado(Grupo grupoAdicionado) {
 		this.grupoAdicionado = grupoAdicionado;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public boolean isEditando() {
+		return this.usuario.getId() != null;
 	}
 
 }

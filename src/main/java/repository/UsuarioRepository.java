@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import model.Usuario;
 
@@ -15,6 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
+import service.NegocioException;
+import util.jpa.Transactional;
 
 public class UsuarioRepository implements Serializable {
 
@@ -35,6 +39,7 @@ public class UsuarioRepository implements Serializable {
 
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
+			// criteria troca td pra minusculo
 		}
 
 		return criteria.addOrder(Order.asc("nome")).list();
@@ -46,6 +51,21 @@ public class UsuarioRepository implements Serializable {
 					.setParameter("email", email.toUpperCase()).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
+		}
+	}
+
+	public Usuario porId(Long id) {
+		return this.manager.find(Usuario.class, id);
+	}
+
+	@Transactional
+	public void remover(Usuario usuario) {
+		try {
+			usuario = porId(usuario.getId());
+			this.manager.remove(usuario);
+			this.manager.flush();
+		} catch (PersistenceException e) {
+			throw new NegocioException("Usuario não pode ser excluído.");
 		}
 	}
 

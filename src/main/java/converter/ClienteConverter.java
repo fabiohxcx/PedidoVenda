@@ -5,25 +5,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import model.Grupo;
-import repository.GrupoRepository;
+import model.Cliente;
+import repository.ClienteRepository;
 import util.cdi.CDIServiceLocator;
 
-@FacesConverter(forClass = Grupo.class)
-public class GrupoConverter implements Converter {
+@FacesConverter(forClass = Cliente.class)
+public class ClienteConverter implements Converter {
 
-	private GrupoRepository grupos;
+	// @Inject
+	private ClienteRepository clientes;
 
-	public GrupoConverter() {
-		this.grupos = CDIServiceLocator.getBean(GrupoRepository.class);
+	public ClienteConverter() {
+		this.clientes = CDIServiceLocator.getBean(ClienteRepository.class);
 	}
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String str) {
-		Grupo retorno = null;
+		Cliente retorno = null;
 		if (str != null) {
 			Long id = new Long(str);
-			retorno = this.grupos.porId(id);
+			retorno = this.clientes.porId(id);
 		}
 		return retorno;
 	}
@@ -31,7 +32,7 @@ public class GrupoConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object obj) {
 		if (obj != null) {
-			return ((Grupo) obj).getId() == null ? "" : ((Grupo) obj).getId().toString();
+			return ((Cliente) obj).getId() == null ? "" : ((Cliente) obj).getId().toString();
 		}
 		return "";
 	}

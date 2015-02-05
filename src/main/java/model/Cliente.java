@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -40,16 +41,16 @@ public class Cliente implements Serializable {
 	private String email;
 
 	@NotBlank
-	@Size(max = 14, min = 11)
-	@Column(name = "doc_receita_federal", nullable = false, length = 14)
+	@Size(max = 20, min = 11)
+	@Column(name = "doc_receita_federal", nullable = false, length = 20)
 	private String documentoReceitaFederal;
 
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	private TipoPessoa tipo;
 
-	@Size(min = 1)
+	// @Size(min = 1)
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 
@@ -82,7 +83,8 @@ public class Cliente implements Serializable {
 	}
 
 	public void setDocumentoReceitaFederal(String documentoReceitaFederal) {
-		this.documentoReceitaFederal = documentoReceitaFederal;
+		this.documentoReceitaFederal = documentoReceitaFederal.replace(".", "").replace("/", "").replace("-", "")
+				.trim();
 	}
 
 	public List<Endereco> getEnderecos() {
