@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -47,20 +49,20 @@ public class Pedido implements Serializable {
 
 	@NotNull
 	@Column(name = "valor_frete", nullable = false, precision = 10, scale = 2)
-	private BigDecimal valorFrete;
+	private BigDecimal valorFrete = BigDecimal.ZERO;
 
 	@NotNull
 	@Column(name = "valor_desconto", nullable = false, precision = 10, scale = 2)
-	private BigDecimal valorDesconto;
+	private BigDecimal valorDesconto = BigDecimal.ZERO;
 
 	@NotNull
 	@Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
-	private StatusPedido status;
+	private StatusPedido status = StatusPedido.ORCAMENTO;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -80,8 +82,17 @@ public class Pedido implements Serializable {
 	@Embedded
 	private EnderecoEntrega enderecoEntrega;
 
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<ItemPedido> itens = new ArrayList<ItemPedido>();
+
+	@Transient
+	public boolean isNovo() {
+		return getId() == null;
+	}
+
+	public boolean isExistente() {
+		return !isNovo();
+	}
 
 	public Long getId() {
 		return this.id;
@@ -210,6 +221,94 @@ public class Pedido implements Serializable {
 		} else if (!this.id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+
+		total = total.add(getValorFrete()).subtract(getValorDesconto());
+
+		for (ItemPedido item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+
+		setValorTotal(total);
+	}
+
+	public BigDecimal getValorSubtotal() {
+		return getValorTotal().subtract(getValorFrete()).add(getValorDesconto());
+	}
+
+	public void adicionarItemVazio() {
+		if (this.isOrcamento()) {
+			Produto produto = new Produto();
+
+			ItemPedido item = new ItemPedido();
+			item.setProduto(produto);
+			item.setPedido(this);
+
+			this.getItens().add(0, item);
+		}
+	}
+
+	@Transient
+	public boolean isOrcamento() {
+		return StatusPedido.ORCAMENTO.equals(this.getStatus());
+	}
+
+	public void removerItemVazio() {
+		ItemPedido primeiroItem = getItens().get(0);
+
+		if (primeiroItem != null && primeiroItem.getProduto().getId() == null) {
+			getItens().remove(0);
+		}
+	}
+
+	@Transient
+	public boolean isValorTotalNegativo() {
+		return getValorTotal().compareTo(BigDecimal.ZERO) < 0;
+	}
+
+	@Transient
+	public boolean isEmitido() {
+		return StatusPedido.EMITIDO.equals(getStatus());
+	}
+
+	@Transient
+	public boolean isNaoEmissivel() {
+		return !isEmissivel();
+	}
+
+	@Transient
+	public boolean isEmissivel() {
+		return isExistente() && isOrcamento();
+	}
+
+	@Transient
+	public boolean isNaoCancelavel() {
+		return !isCancelavel();
+	}
+
+	@Transient
+	public boolean isCancelavel() {
+		return isExistente() && !isCancelado();
+	}
+
+	@Transient
+	public boolean isCancelado() {
+		return StatusPedido.CANCELADO.equals(getStatus());
+	}
+
+	@Transient
+	public boolean isNaoAlteravel() {
+		return !isAlteravel();
+	}
+
+	@Transient
+	public boolean isAlteravel() {
+		return isOrcamento();
 	}
 
 }

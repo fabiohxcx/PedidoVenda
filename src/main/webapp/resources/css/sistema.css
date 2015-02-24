@@ -130,6 +130,8 @@ footer {
 no-repeat
 
 
+
+
 ;
 }
 /* Menu sistema fim */
@@ -139,4 +141,8 @@ no-repeat
 
 #grupo_label {
 	height: 19px;
+}
+
+.ui-state-disabled {
+	opacity: .80 !important;
 }

@@ -58,6 +58,11 @@ public class UsuarioRepository implements Serializable {
 		return this.manager.find(Usuario.class, id);
 	}
 
+	public List<Usuario> vendedores() {
+		// TODO filtrar apenas vendedores (por um grupo específico)
+		return this.manager.createQuery("from Usuario", Usuario.class).getResultList();
+	}
+
 	@Transactional
 	public void remover(Usuario usuario) {
 		try {

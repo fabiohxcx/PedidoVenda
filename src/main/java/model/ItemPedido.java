@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "item_pedido")
@@ -22,10 +23,10 @@ public class ItemPedido implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, length = 3)
-	private Integer quantidade;
+	private Integer quantidade = 1;
 
 	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
-	private BigDecimal valorUnitario;
+	private BigDecimal valorUnitario = BigDecimal.ZERO;
 
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false)
@@ -36,7 +37,7 @@ public class ItemPedido implements Serializable {
 	private Pedido pedido;
 
 	public Integer getQuantidade() {
-		return quantidade;
+		return this.quantidade;
 	}
 
 	public void setQuantidade(Integer quantidade) {
@@ -44,7 +45,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	public BigDecimal getValorUnitario() {
-		return valorUnitario;
+		return this.valorUnitario;
 	}
 
 	public void setValorUnitario(BigDecimal valorUnitario) {
@@ -52,7 +53,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	public Produto getProduto() {
-		return produto;
+		return this.produto;
 	}
 
 	public void setProduto(Produto produto) {
@@ -60,7 +61,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	public Pedido getPedido() {
-		return pedido;
+		return this.pedido;
 	}
 
 	public void setPedido(Pedido pedido) {
@@ -68,7 +69,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -79,7 +80,7 @@ public class ItemPedido implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
 		return result;
 	}
 
@@ -92,12 +93,34 @@ public class ItemPedido implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPedido other = (ItemPedido) obj;
-		if (id == null) {
+		if (this.id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!this.id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Transient
+	public BigDecimal getValorTotal() {
+		return this.getValorUnitario()
+				.multiply(new BigDecimal(this.getQuantidade() == null ? 1 : this.getQuantidade()));
+	}
+
+	@Transient
+	public boolean isProdutoAssociado() {
+		return getProduto() != null && getProduto().getId() != null;
+	}
+
+	@Transient
+	public boolean isEstoqueInsulficiente() {
+		return !isEstoqueSulficiente();
+	}
+
+	@Transient
+	public boolean isEstoqueSulficiente() {
+		return getPedido().isEmitido() || getProduto().getId() == null
+				|| getProduto().getQuantidadeEstoque() >= getQuantidade();
 	}
 
 }
