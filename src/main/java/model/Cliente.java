@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
 	private TipoPessoa tipo;
 
 	// @Size(min = 1)
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 
 	public Long getId() {

@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -53,7 +52,7 @@ public class Endereco implements Serializable {
 	@Column(nullable = false, length = 9)
 	private String cep;
 
-	@NotNull
+	// @NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
@@ -142,9 +141,9 @@ public class Endereco implements Serializable {
 		if (this.id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!this.id.equals(other.id))
-			return false;
-		return true;
+		} else if (this.id.equals(other.id))
+			return true;
+		return false;
 	}
 
 }
