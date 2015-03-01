@@ -311,4 +311,8 @@ public class Pedido implements Serializable {
 		return isOrcamento();
 	}
 
+	@Transient
+	public boolean isNaoEnviavelPorEmail() {
+		return isNovo() || isCancelado();
+	}
 }

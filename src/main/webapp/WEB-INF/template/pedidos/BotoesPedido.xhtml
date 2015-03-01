@@ -14,7 +14,8 @@
 				disabled="#{cadastroPedidoBean.pedido.naoEmissivel}" />
 			<p:commandButton value="Cancelar" action="#{cancelamentoPedidoBean.cancelarPedido}" process="@this" update="@form"
 				disabled="#{cadastroPedidoBean.pedido.naoCancelavel}" />
-			<p:commandButton value="Enviar por e-mail" />
+			<p:commandButton value="Enviar por e-mail" action="#{envioEmailPedidoBean.enviarPedido}" process="@this"
+				disabled="#{cadastroPedidoBean.pedido.naoEnviavelPorEmail}" />
 
 			<p:separator />
 
