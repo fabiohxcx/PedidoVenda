@@ -46,12 +46,15 @@ public class UsuarioRepository implements Serializable {
 	}
 
 	public Usuario porEmail(String email) {
+		Usuario usuario = null;
+
 		try {
-			return this.manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
-					.setParameter("email", email.toUpperCase()).getSingleResult();
+			usuario = this.manager.createQuery("from Usuario where lower(email) = :email", Usuario.class)
+					.setParameter("email", email.toLowerCase()).getSingleResult();
 		} catch (NoResultException e) {
-			return null;
+			// Nenhum usuario encontrado com o e-mail;
 		}
+		return usuario;
 	}
 
 	public Usuario porId(Long id) {

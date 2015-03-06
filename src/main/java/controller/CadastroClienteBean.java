@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 
+import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,10 @@ public class CadastroClienteBean implements Serializable {
 	@Inject
 	private CadastroClienteService cadastroClienteService;
 
+	@Produces
+	@ClienteEdicao
 	private Cliente cliente;
+
 	private Endereco endereco;
 
 	int linha;

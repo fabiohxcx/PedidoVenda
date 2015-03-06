@@ -27,12 +27,14 @@
 			</h:link>
 		</div>
 		<div style="float: right; margin-right: 110px; height: 60px">
-			<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px; margin-top: 30px"> Olá usuário! </span>
+			<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px; margin-top: 30px"> Olá <h:outputText
+					value="#{seguranca.nomeUsuario}" />
+			</span>
 			<h:form style="display: inline-block;">
 				<p:menubar styleClass="menu-sistema">
 					<p:submenu label="Cadastros">
-						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente"/>
-						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario"/>
+						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente" />
+						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario" />
 						<p:separator />
 						<p:menuitem value="Categorias" />
 						<p:menuitem value="Produtos" outcome="/produtos/PesquisaProdutos" />
@@ -41,7 +43,7 @@
 						<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedido" />
 						<p:menuitem value="Pesquisa" outcome="/pedidos/PesquisaPedidos" />
 					</p:submenu>
-					<p:menuitem value="Sair" />
+					<p:menuitem value="Sair" url="/j_spring_security_logout" />
 				</p:menubar>
 			</h:form>
 		</div>

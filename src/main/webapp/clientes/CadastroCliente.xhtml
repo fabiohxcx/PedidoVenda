@@ -26,9 +26,10 @@
 				<p:toolbarGroup>
 					<p:button value="Novo" outcome="/clientes/CadastroCliente" style="margin-bottom: 2px;margin-right: 20px;" />
 					<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroClienteBean.salvar}" process="@form"
-						update="@form :formEnderecoButton" />
+						update="@form :formEnderecoButton" disabled="#{not seguranca.salvarClientePermitido}" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
+					<p:commandButton value="Enviar por e-mail" action="#{envioEmailPedidoBean.enviarDadosCliente}" process="@this" />
 					<p:button value="Pesquisa" outcome="/clientes/PesquisaClientes" />
 				</p:toolbarGroup>
 			</p:toolbar>

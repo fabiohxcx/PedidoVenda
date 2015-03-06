@@ -1,0 +1,43 @@
+<html>
+    <body>
+        <table border="1" cellspacing="0" cellpadding="3">
+            <tr>
+                <td>Cliente:</td>
+                <td>$cliente.nome</td>
+            </tr>
+            <tr>
+                <td>Tipo:</td>
+                <td>$cliente.tipo.descricao</td>
+            </tr>
+            <tr>
+                <td>CNPJ:</td>
+                <td>$cliente.documentoReceitaFederal</td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td>$cliente.email</td>
+            </tr>
+        </table>
+        
+        <br/>
+        <h2>Endereços</h2>
+        <table border="1" cellspacing="0" cellpadding="3">
+            <tr>
+                <th>Logradouro</th>
+                <th>Número</th>
+                <th>Complemento</th>
+                <th>CEP</th>
+                <th>Cidade/UF</th>
+            </tr>
+            #foreach ($endereco in $cliente.enderecos)
+	            <tr>
+	                <td>$endereco.logradouro</td>
+	                <td>$endereco.numero</td>
+	                <td>$endereco.complemento</td>
+	                <td>$endereco.cep</td>
+	                <td>$endereco.cidade - $endereco.uf</td>
+	            </tr>
+            #end
+        </table>
+    </body>
+</html>

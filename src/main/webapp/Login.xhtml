@@ -8,27 +8,27 @@
 	<h:outputStylesheet library="css" name="sistema.css" />
 </h:head>
 <h:body>
+	<f:metadata>
+		<f:event listener="#{loginBean.preRender}" type="preRenderView" />
+	</f:metadata>
+
 	<div id="login-dialog">
 		<h1>Login</h1>
-		<h:form id="fmr-login">
+		<h:form id="fmr-login" prependId="false">
+
+			<p:messages id="messages" autoUpdate="true" closable="true" />
 			<h:panelGrid columns="2" styleClass="grid-login">
 				<p:outputLabel value="E-mail" />
-				<p:inputText size="30" />
-				
+				<p:inputText size="30" id="j_username" value="#{loginBean.email}" />
+
 				<p:outputLabel value="Senha" />
-				<p:password size="30"/>
-				
+				<p:password size="30" id="j_password" />
+
 				<h:panelGroup />
-				<p:commandButton value="Login" />
+				<p:commandButton value="Login" action="#{loginBean.login}" ajax="false" />
 			</h:panelGrid>
 		</h:form>
 	</div>
-
-
-
-	<h:form id="frm">
-		<p:messages />
-	</h:form>
 
 </h:body>
 </html>
