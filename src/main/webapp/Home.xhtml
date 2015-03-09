@@ -1,14 +1,18 @@
-<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	<f:metadata>
+		<f:viewParam name="dummy" />
+		<f:event type="preRenderView" listener="#{graficosPedidosCriadosBean.preRender}" />
+	</f:metadata>
 
 	<ui:define name="titulo">Dashboard - Sistema de Pedidos</ui:define>
 
 	<ui:define name="corpo">
-		<br/><br/><br/>Seja bem-vindo!<br/><br/><br/>
-	</ui:define>
 
+		<p:chart type="line" model="#{graficosPedidosCriadosBean.model}" style="height: 400px;" />
+
+		<p:chart type="pie" model="#{graficosPedidosCriadosBean.modelPie}" style="height:500px" />
+
+	</ui:define>
 </ui:composition>
