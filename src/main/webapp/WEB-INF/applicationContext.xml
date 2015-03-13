@@ -36,12 +36,13 @@
 
 		<intercept-url pattern="/Home.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
-		<intercept-url pattern="/pedidos/**"
-			access="hasAnyRole('VENDEDORES','AUXILIARES','ADMINISTRADORES')" />
+		<intercept-url pattern="/categorias/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/clientes/**" access="hasAnyRole('ADMINISTRADORES','VENDEDORES','AUXILIARES')" />
+		<intercept-url pattern="/pedidos/**" access="hasAnyRole('VENDEDORES','AUXILIARES','ADMINISTRADORES')" />
 		<intercept-url pattern="/produtos/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/relatorios/**"	access="hasAnyRole('VENDEDORES','AUXILIARES','ADMINISTRADORES')" />
 		<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADORES')" />
-		<intercept-url pattern="/clientes/**"
-			access="hasAnyRole('ADMINISTRADORES','VENDEDORES','AUXILIARES')" />
+
 		<intercept-url pattern="/**" access="denyAll" />
 
 		<form-login login-page="/Login.xhtml" default-target-url="/"

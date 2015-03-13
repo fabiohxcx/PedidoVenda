@@ -56,14 +56,19 @@ public class CadastroUsuarioBean implements Serializable {
 	public void adicionarGrupo() {
 		List<Grupo> gruposDoUsuario = this.usuario.getGrupos();
 
-		if (gruposDoUsuario != null) {
+		if (gruposDoUsuario != null && this.grupoAdicionado != null && this.grupoAdicionado.getId() != null) {
 			for (int i = 0; i < gruposDoUsuario.size(); i++) {
 				if (gruposDoUsuario.get(i).getNome().equals(this.grupoAdicionado.getNome())) {
 					throw new NegocioException("Grupo já está adicionado");
 				}
 			}
 		}
-		this.usuario.getGrupos().add(this.grupoAdicionado);
+
+		if (this.grupoAdicionado != null && this.grupoAdicionado.getId() != null) {
+			this.usuario.getGrupos().add(this.grupoAdicionado);
+		}
+
+		this.grupoAdicionado = null;
 	}
 
 	public Usuario getUsuario() {

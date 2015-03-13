@@ -35,7 +35,7 @@ public class Categoria implements Serializable {
 	private Categoria categoriaPai;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -43,7 +43,7 @@ public class Categoria implements Serializable {
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 	public void setDescricao(String descricao) {
@@ -51,7 +51,7 @@ public class Categoria implements Serializable {
 	}
 
 	public List<Categoria> getSubCategorias() {
-		return subCategorias;
+		return this.subCategorias;
 	}
 
 	public void setSubCategorias(List<Categoria> subCategorias) {
@@ -59,7 +59,7 @@ public class Categoria implements Serializable {
 	}
 
 	public Categoria getCategoriaPai() {
-		return categoriaPai;
+		return this.categoriaPai;
 	}
 
 	public void setCategoriaPai(Categoria categoriaPai) {
@@ -70,7 +70,7 @@ public class Categoria implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
 		return result;
 	}
 
@@ -83,10 +83,10 @@ public class Categoria implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Categoria other = (Categoria) obj;
-		if (id == null) {
+		if (this.id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!this.id.equals(other.id))
 			return false;
 		return true;
 	}

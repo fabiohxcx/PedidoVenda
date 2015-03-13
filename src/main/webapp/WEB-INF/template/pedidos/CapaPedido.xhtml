@@ -35,7 +35,7 @@
 
 		<p:outputLabel value="Valor do frete" for="valorFrete" />
 		<p:inputText id="valorFrete" size="10" maxlength="10" value="#{cadastroPedidoBean.pedido.valorFrete}"
-			disabled="#{cadastroPedidoBean.pedido.naoAlteravel}">
+			disabled="#{cadastroPedidoBean.pedido.naoAlteravel}" styleClass="moeda texto-direita">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 			<p:ajax event="change" process="@this" update="totalPedido" listener="#{cadastroPedidoBean.recalcularPedido}" />
 		</p:inputText>
@@ -47,7 +47,7 @@
 
 		<p:outputLabel value="Valor de desconto" for="valorDesconto" />
 		<p:inputText id="valorDesconto" size="10" maxlength="10" value="#{cadastroPedidoBean.pedido.valorDesconto}"
-			disabled="#{cadastroPedidoBean.pedido.naoAlteravel}">
+			disabled="#{cadastroPedidoBean.pedido.naoAlteravel}" styleClass="moeda texto-direita">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 			<p:ajax event="change" process="@this" update="totalPedido" listener="#{cadastroPedidoBean.recalcularPedido}" />
 		</p:inputText>

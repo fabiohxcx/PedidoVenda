@@ -36,12 +36,17 @@
 						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente" />
 						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario" />
 						<p:separator />
-						<p:menuitem value="Categorias" />
+						<p:menuitem value="Categorias" outcome="/categorias/PesquisaCategorias" />
+
 						<p:menuitem value="Produtos" outcome="/produtos/PesquisaProdutos" />
 					</p:submenu>
 					<p:submenu label="Pedidos">
 						<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedido" />
 						<p:menuitem value="Pesquisa" outcome="/pedidos/PesquisaPedidos" />
+					</p:submenu>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Pedidos emitidos" outcome="/relatorios/RelatorioPedidosEmitidos" />
+						<p:menuitem value="Lista de Produtos" outcome="/relatorios/RelatorioProdutos" />
 					</p:submenu>
 					<p:menuitem value="Sair" url="/j_spring_security_logout" />
 				</p:menubar>
