@@ -146,8 +146,8 @@ public class PedidoRepository implements Serializable {
 
 		Map<String, BigDecimal> resultado = new TreeMap<>();
 
-		Query sql = session.createSQLQuery("select Usuario.nome as usuario, sum(Pedido.valor_total) as valor"
-				+ " from Pedido, Usuario where Pedido.vendedor_id = Usuario.id group by Usuario.id");
+		Query sql = session.createSQLQuery("select usuario.nome as usuario, sum(pedido.valor_total) as valor"
+				+ " from pedido, usuario where pedido.vendedor_id = usuario.id group by usuario.id");
 
 		@SuppressWarnings("unchecked")
 		List<UsuarioValor> valoresPorUsuario = sql.setResultTransformer(Transformers.aliasToBean(UsuarioValor.class))
